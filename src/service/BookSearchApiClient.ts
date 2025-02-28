@@ -1,14 +1,17 @@
 import axios from "axios";
 import { API_ENDPOINTS } from "../constants/api";
-import { Book, ApiBookResponse, FormattedBook, ErrorMes } from "../constants/interface";
+import { ApiBookResponse, FormattedBook, ErrorMes, BookSearchAPI } from "../constants/interface";
 
-export class BookSearchApiClient {
-  private baseUrl = API_ENDPOINTS.SEARCH_BY_AUTHOR;
+
+
+export class BookSearchTypesAPI implements BookSearchAPI {
+  private baseUrl = API_ENDPOINTS.BASE;
 
   async getBooks(query: Record<string, string | number>, format: "json" | "xml"): Promise<FormattedBook[] | ErrorMes> {
     try {
-      const response = await axios.get<ApiBookResponse>(this.baseUrl, {
-        params: { ...query, format },
+      const searchQuery = this.buildQuery(query);
+      const response = await axios.get<ApiBookResponse>(searchQuery.url, {
+        params: { ...searchQuery.params, format },
         headers: { "Content-Type": "application/json" },
       });
 
@@ -16,6 +19,18 @@ export class BookSearchApiClient {
     } catch (error: any) {
       console.error("API request failed:", error.message);
       return { message: "Failed to fetch books", status: error.response?.status || 500 };
+    }
+  }
+
+  private buildQuery(query: Record<string, string | number>) {
+    if (query.author) {
+      return { url: API_ENDPOINTS.SEARCH_BY_AUTHOR, params: { q: query.author, limit: query.limit } };
+    } else if (query.publisher) {
+      return { url: API_ENDPOINTS.SEARCH_BY_PUBLISHER, params: { publisher: query.publisher, limit: query.limit } };
+    } else if (query.year) {
+      return { url: API_ENDPOINTS.SEARCH_BY_YEAR, params: { year: query.year, limit: query.limit } };
+    } else {
+      throw new Error("Invalid search parameters");
     }
   }
 
@@ -46,5 +61,14 @@ export class BookSearchApiClient {
       console.error("Error parsing XML:", error);
       return [];
     }
+  }
+}
+
+// Factory Pattern to Support Multiple APIs
+export class BookSearchApiClient {
+  constructor(private apiProvider: BookSearchAPI) {}
+
+  async searchBooks(query: Record<string, string | number>, format: "json" | "xml"): Promise<FormattedBook[] | ErrorMes> {
+    return this.apiProvider.getBooks(query, format);
   }
 }
