@@ -10,6 +10,7 @@ const App: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [searchType, setSearchType] = useState<"author" | "publisher" | "year">("author");
   const [query, setQuery] = useState<string>("");
+  const [format, setFormat] = useState<"json" | "xml">("json"); // ✅ Added state for format selection
 
   // Fetch books based on search input
   const fetchBooks = async () => {
@@ -26,7 +27,7 @@ const App: React.FC = () => {
     if (searchType === "publisher") queryParams.publisher = query;
     if (searchType === "year") queryParams.year = query;
 
-    const response = await client.searchBooks(queryParams, "json");
+    const response = await client.searchBooks(queryParams, format); // Dynamic format selection
 
     if ("message" in response) {
       setError(response.message);
@@ -65,6 +66,14 @@ const App: React.FC = () => {
           placeholder={`Enter ${searchType} name`}
           style={{ marginLeft: "10px", padding: "5px" }}
         />
+
+        {/* ✅ Format Selection Dropdown */}
+        <label style={{ marginLeft: "10px" }}>Format: </label>
+        <select value={format} onChange={(e) => setFormat(e.target.value as "json" | "xml")}>
+          <option value="json">JSON</option>
+          <option value="xml">XML</option>
+        </select>
+
         <button onClick={fetchBooks} style={{ marginLeft: "10px", padding: "5px 10px" }}>
           Search
         </button>

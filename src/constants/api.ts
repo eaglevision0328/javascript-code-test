@@ -6,10 +6,3 @@ export const API_ENDPOINTS = {
   SEARCH_BY_PUBLISHER: `${API_BASE_URL}/by-publisher`,
   SEARCH_BY_YEAR: `${API_BASE_URL}/by-year`,
 };
-
-
-export const DEFAULT_API_CONFIG = {
-  method: "GET",
-  limit: "10",
-  format: "json",
-};

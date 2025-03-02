@@ -1,4 +1,5 @@
 import axios from "axios";
+import { DOMParser } from "xmldom";
 import { API_ENDPOINTS } from "../constants/api";
 import { ApiBookResponse, FormattedBook, ErrorMes, BookSearchAPI } from "../constants/interface";
 
@@ -10,6 +11,7 @@ export class BookSearchTypesAPI implements BookSearchAPI {
   async getBooks(query: Record<string, string | number>, format: "json" | "xml"): Promise<FormattedBook[] | ErrorMes> {
     try {
       const searchQuery = this.buildQuery(query);
+      console.log("searchQuery ==>", searchQuery);
       const response = await axios.get<ApiBookResponse>(searchQuery.url, {
         params: { ...searchQuery.params, format },
         headers: { "Content-Type": "application/json" },
@@ -48,15 +50,20 @@ export class BookSearchTypesAPI implements BookSearchAPI {
     try {
       const parser = new DOMParser();
       const xml = parser.parseFromString(xmlString, "application/xml");
-      const bookNodes = Array.from(xml.getElementsByTagName("data"));
-
-      return bookNodes.map((bookNode) => ({
-        title: bookNode.getElementsByTagName("title")[0]?.textContent || "",
-        author: bookNode.getElementsByTagName("author")[0]?.textContent || "",
-        isbn: bookNode.getElementsByTagName("isbn")[0]?.textContent || "",
-        quantity: Number(bookNode.getElementsByTagName("quantity")[0]?.textContent) || 0,
-        price: Number(bookNode.getElementsByTagName("price")[0]?.textContent) || 0,
-      }));
+      const dataNodes = Array.from(xml.getElementsByTagName("data"));
+  
+      return dataNodes.map((dataNode) => {
+        const bookNode = dataNode.getElementsByTagName("book")[0];
+        const stockNode = dataNode.getElementsByTagName("stock")[0];
+  
+        return {
+          title: bookNode.getElementsByTagName("title")[0]?.textContent || "",
+          author: bookNode.getElementsByTagName("author")[0]?.textContent || "",
+          isbn: bookNode.getElementsByTagName("isbn")[0]?.textContent || "",
+          quantity: Number(stockNode.getElementsByTagName("quantity")[0]?.textContent) || 0,
+          price: Number(stockNode.getElementsByTagName("price")[0]?.textContent) || 0,
+        };
+      });
     } catch (error) {
       console.error("Error parsing XML:", error);
       return [];

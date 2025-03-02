@@ -4,8 +4,8 @@ export const mockBookResponse: ApiBookResponse = {
   data: [
     {
       book: {
-        title: "Test_title",
-        author: "Shakespeare_test",
+        title: "Hamlet",
+        author: "William Shakespeare",
         isbn: "123456789",
       },
       stock: {
@@ -15,8 +15,8 @@ export const mockBookResponse: ApiBookResponse = {
     },
     {
       book: {
-        title: "Test1_title",
-        author: "Shakespeare_test1",
+        title: "Romeo and Juliet",
+        author: "William Shakespeare",
         isbn: "123456788",
       },
       stock: {
@@ -32,25 +32,42 @@ export const xmlBookResponse: string = `<?xml version="1.0" encoding="UTF-8" ?>
 <root>
     <data>
         <book>
-            <title>Macbeth</title>
+            <title>Hamlet</title>
             <author>William Shakespeare</author>
             <isbn>123456789</isbn>
         </book>
         <stock>
-            <quantity>2</quantity>
-            <price>9.99</price>
+            <quantity>10</quantity>
+            <price>30.5</price>
         </stock>
     </data>
     <data>
         <book>
-            <title>Richard II</title>
+            <title>Romeo and Juliet</title>
             <author>William Shakespeare</author>
-            <isbn>123456780</isbn>
+            <isbn>123456788</isbn>
         </book>
         <stock>
-            <quantity>9</quantity>
-            <price>11.99</price>
+            <quantity>5</quantity>
+            <price>25.5</price>
         </stock>
     </data>
     <status>200</status>
 </root>`;
+
+export const formattedBookResponse = [
+  {
+    title: "Hamlet",
+    author: "William Shakespeare",
+    isbn: "123456789",
+    quantity: 10,
+    price: 30.5,
+  },
+  {
+    title: "Romeo and Juliet",
+    author: "William Shakespeare",
+    isbn: "123456788",
+    quantity: 5,
+    price: 25.5,
+  },
+];
