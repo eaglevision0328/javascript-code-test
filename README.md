@@ -1,5 +1,24 @@
 # Javascript Code Test
 
+# 📚 BookSearch API Client
+A **TypeScript-based book search client** that fetches book data from a remote API and supports **both JSON and XML formats**.  
+Includes a **Jest test suite** and a **GitHub Actions CI/CD pipeline** for continuous integration.
+
+ * Interface-based API extensibility
+ * Strategy pattern to manage different APIs
+ * Factory pattern for handling multiple API providers
+ * Adapter pattern to normalize different API response formats
+ * Support for multiple query types (author, publisher, year)
+ * Unit tests with Jest
+ * CI/CD with GitHub Actions
+
+
+---
+---
+---
+<br>
+<br>
+
 `BookSearchApiClient` is a simple class that makes a call to a http API to retrieve a list of books and return them.
 
 You need to refactor the `BookSearchApiClient` class, and demonstrate in `example-client.js` how it would be used. Refactor to what you consider to be production ready code. You can change it in anyway you would like and can use javascript or typescript.
