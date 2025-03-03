@@ -12,6 +12,23 @@ Includes a **Jest test suite** and a **GitHub Actions CI/CD pipeline** for conti
  * Unit tests with Jest
  * CI/CD with GitHub Actions
 
+---
+# 👨‍💻 Contributors
+### Name-Git account (Danyl Goodall - eaglevision0328)
+  Feel free to open a pull request! 🚀
+
+# **📚 FAQ**
+### **1️. How could you easily add other book seller APIs in the future?**
+This project follows a **Factory Pattern**, allowing **new API providers** to be added **without modifying core logic**. Implement a new class that extends BookSearchAPI.
+
+### **2️. How would you manage differences in response payloads between different APIs?**
+This project uses an Adapter Pattern, which transforms responses into a common **FormattedBook[]** structure. This avoids modifying the client code.
+### **3. How would you implement different query types (author, publisher, year, etc.)?**
+This project dynamically builds correct API query URL based on the provided search parameters.
+No hardcoded conditions.
+### **4. FAQ - How Your Code Would Be Tested?**
+This project uses Jest for unit testing and GitHub Actions for continuous integration.
+
 
 ---
 ---
