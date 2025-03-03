@@ -29,6 +29,15 @@ No hardcoded conditions.
 ### **4. FAQ - How Your Code Would Be Tested?**
 This project uses Jest for unit testing and GitHub Actions for continuous integration.
 
+# Install Dependencies
+ `npm install`
+# Running the Project
+ `npm start`
+# Running Tests
+ `npm test`
+# Building the Project
+ `npm run build`
+<br>
 
 ---
 ---
